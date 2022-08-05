@@ -1,7 +1,6 @@
 # GAT 
 PyG impletement of GAT
 
----
 
 ## Prerequisites
 - python 3.8.5
@@ -9,7 +8,6 @@ PyG impletement of GAT
 - torch_geometric 1.12.0+cu116
 - torchmetrics
 
----
 
 ## Usage
 For transductive dataset:
@@ -22,12 +20,10 @@ For inductive dataset(it take a few time):
 
 `python train_inductive.py --train --test`
 
----
 
 ## Model Architecture and Parameters 
 model architecture and parameters are based on the original paper 
 
----
 ## Experiment Result
 | Transductive | Accuracy    |
 | -----------  | ----------- |
