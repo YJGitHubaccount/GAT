@@ -36,6 +36,7 @@ args = parser.parse_args()
 
 os.environ["CUDA_VISIBLE_DEVICES"] = args.device_id
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print("device: " + device)
 
 # set random seed
 random.seed(args.seed)
