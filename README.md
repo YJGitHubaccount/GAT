@@ -13,7 +13,9 @@ PyG impletement of GAT
 For transductive dataset:
 
 `python train.py --train --test --dataset=Cora`
+
 `python train.py --train --test --dataset=CiteSeer`
+
 `python train.py --train --test --dataset=PubMed --weight_decay=0.001`
 
 
