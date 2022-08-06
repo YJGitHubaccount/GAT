@@ -1,3 +1,4 @@
+from operator import concat
 import os
 import random
 import argparse
@@ -36,7 +37,7 @@ args = parser.parse_args()
 
 os.environ["CUDA_VISIBLE_DEVICES"] = args.device_id
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-print("device: " + device)
+print("device: ",device)
 
 # set random seed
 random.seed(args.seed)
@@ -60,7 +61,10 @@ class GAT(torch.nn.Module):
         super(GAT, self).__init__()
         self.dropout = dropout
         self.gat1 = GATConv(features, hidden, heads=heads, dropout=self.dropout, negative_slope=alpha)
-        self.gat2 = GATConv(hidden*heads, classes, heads=1, dropout=self.dropout, negative_slope=alpha)
+        if args.dataset == "PubMed":
+            self.gat2 = GATConv(hidden*heads, classes, heads=heads, dropout=self.dropout, negative_slope=alpha,concat=False)
+        else:
+            self.gat2 = GATConv(hidden*heads, classes, heads=1, dropout=self.dropout, negative_slope=alpha)
 
     def forward(self, data):
         x, edge_index = data.x, data.edge_index

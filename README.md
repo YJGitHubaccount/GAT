@@ -12,9 +12,10 @@ PyG impletement of GAT
 ## Usage
 For transductive dataset:
 
-`python train.py --train --test --datset=Cora`
+`python train.py --train --test --dataset=Cora`
+`python train.py --train --test --dataset=CiteSeer`
+`python train.py --train --test --dataset=PubMed --weight_decay=0.001`
 
-you can change dataset Cora to CiteSeer or PubMed
 
 For inductive dataset(it take a few time):
 
@@ -35,4 +36,4 @@ model architecture and parameters are based on the original paper
 
 | Inductive    | Avg_Micro_F1|
 | -----------  | ----------- |
-| PPI          | 0.9065      |
+| PPI          | 0.9079      |

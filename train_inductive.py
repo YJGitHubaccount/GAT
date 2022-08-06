@@ -16,6 +16,8 @@ import torch_geometric.transforms as T
 
 import torchmetrics
 
+from sklearn.metrics import f1_score
+
 from early_stopping import EarlyStopping
 
 parser = argparse.ArgumentParser()
@@ -34,7 +36,7 @@ args = parser.parse_args()
 
 os.environ["CUDA_VISIBLE_DEVICES"] = args.device_id
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-print("device: " + device)
+print("device: ",device)
 
 # set random seed
 random.seed(args.seed)
@@ -51,8 +53,8 @@ val_dataset = PPI(root='./dataset', split="val",
 test_dataset = PPI(root='./dataset', split="test",
                    transform=T.NormalizeFeatures())
 train_loader = DataLoader(train_dataset, batch_size=2, shuffle=True)
-val_loader = DataLoader(val_dataset, batch_size=1, shuffle=True)
-test_loader = DataLoader(test_dataset, batch_size=1, shuffle=True)
+val_loader = DataLoader(val_dataset, batch_size=2)
+test_loader = DataLoader(test_dataset, batch_size=2)
 # 20 nodes per class, 500 val, 1000 test
 num_train = 20
 num_val = 2
@@ -91,7 +93,7 @@ optimizer = torch.optim.Adam(
     model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
 
 loss_fn = torch.nn.CrossEntropyLoss()
-metric_fn = torchmetrics.F1Score(num_classes=121, average='micro').to(device)
+metric_fn = torchmetrics.F1Score(average='micro').to(device)
 
 early_stopping = EarlyStopping(patience=args.patience)
 
@@ -173,6 +175,8 @@ def test():
     print("Test set results:",
           "avg_loss= {:.4f}".format(avg_loss),
           "avg_micro_f1= {:.4f}".format(avg_micro_f1))
+
+    return avg_loss, avg_micro_f1
 
 
 if args.train:
